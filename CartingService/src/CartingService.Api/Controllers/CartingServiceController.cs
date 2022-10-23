@@ -1,3 +1,4 @@
+using CartingService.Api.Models;
 using CartingService.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,7 +58,7 @@ public class CartingServiceController : ControllerBase
     [HttpGet("cart/id/{cartId}/item/{itemId}")]
     public IActionResult GetItem(string cartId, string itemId)
     {
-        _logger.LogInformation("Requesting an item '{ItemId}' from the cart '{CartId}'", itemId, cartId);
+        _logger.LogInformation("Request an item '{ItemId}' from the cart '{CartId}'", itemId, cartId);
 
         var item = _cartingService.GetItem(cartId, itemId);
         if (item is null)
@@ -68,5 +69,26 @@ public class CartingServiceController : ControllerBase
         }
 
         return Ok(item);
+    }
+    
+    [HttpPost("cart/id/{cartId}/item/{itemId}")]
+    public IActionResult CreateItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
+    {
+        _logger.LogInformation("Create an item '{ItemId}' from the cart '{CartId}'", itemId, cartId);
+
+        var item = createItemRequest.ToItem(itemId);
+        _cartingService.CreateItem(cartId, item);
+
+        return NoContent();
+    }
+    
+    [HttpDelete("cart/id/{cartId}/item/{itemId}")]
+    public IActionResult DeleteItem(string cartId, string itemId)
+    {
+        _logger.LogInformation("Delete an item '{ItemId}' with the cart '{CartId}'", itemId, cartId);
+
+        _cartingService.DeleteItem(cartId, itemId);
+
+        return NoContent();
     }
 }

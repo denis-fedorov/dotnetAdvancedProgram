@@ -10,8 +10,9 @@ public class Item : EntityBase
     public decimal Price { get; }
     public uint Quantity { get; }
 
-    public Item(string name, string? image, decimal price, uint quantity)
+    public Item(string id, string name, string? image, decimal price, uint quantity)
     {
+        Id = NullGuard.ThrowIfNull(id);
         Name = NullGuard.ThrowIfNull(name);
         Image = NullGuard.ThrowIfNull(image);
 

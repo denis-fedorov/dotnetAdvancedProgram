@@ -34,7 +34,9 @@ public class CartingRepository : ICartingRepository
             using var db = new LiteDatabase(_connectionString);
             var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
 
-            var cart = cartsCollection.FindById(id);
+            var cart = cartsCollection
+                .Include(c => c.Items)
+                .FindById(id);
             
             return cart;
         }
@@ -116,7 +118,51 @@ public class CartingRepository : ICartingRepository
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "There is an error while getting a cart from DB ('{ConnectionString}')", _connectionString);
+            _logger.LogError(e, "There is an error while getting an item from DB ('{ConnectionString}')", _connectionString);
+            throw new DatabaseException(_connectionString!, e);
+        }
+    }
+
+    public void CreateItem(string cartId, Item item)
+    {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(item);
+        
+        try
+        {
+            using var db = new LiteDatabase(_connectionString);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+
+            var cart = cartsCollection
+                .Include(c => c.Items)
+                .FindById(cartId);
+            
+            cart.AddItem(item);
+
+            cartsCollection.Update(cart);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "There is an error while creating an item from DB ('{ConnectionString}')", _connectionString);
+            throw new DatabaseException(_connectionString!, e);
+        }
+    }
+
+    public void DeleteItem(string cartId, string itemId)
+    {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(itemId);
+        
+        try
+        {
+            using var db = new LiteDatabase(_connectionString);
+
+            var itemsCollection = db.GetCollection<Item>(DbMappings.ItemsTableName);
+            itemsCollection.Delete(itemId);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "There is an error while deleting an cart from DB ('{ConnectionString}')", _connectionString);
             throw new DatabaseException(_connectionString!, e);
         }
     }

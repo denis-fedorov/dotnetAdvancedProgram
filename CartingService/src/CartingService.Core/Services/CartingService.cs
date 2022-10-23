@@ -40,11 +40,27 @@ public class CartingService : ICartingService
         _cartingRepository.Delete(id);
     }
 
+    public void CreateItem(string cartId, Item item)
+    {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(item);
+        
+        _cartingRepository.CreateItem(cartId, item);
+    }
+
     public Item? GetItem(string cartId, string itemId)
     {
         NullGuard.ThrowIfNull(cartId);
         NullGuard.ThrowIfNull(itemId);
 
         return _cartingRepository.GetItem(cartId, itemId);
+    }
+
+    public void DeleteItem(string cartId, string itemId)
+    {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(itemId);
+
+        _cartingRepository.DeleteItem(cartId, itemId);
     }
 }
