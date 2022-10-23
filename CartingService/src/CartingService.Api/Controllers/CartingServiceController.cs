@@ -33,4 +33,13 @@ public class CartingServiceController : ControllerBase
 
         return Ok(cart);
     }
+
+    [HttpPost("cart/id/{id}")]
+    public IActionResult CreateCart(string id)
+    {
+        _logger.LogInformation("Create a cart with id {Id}", id);
+        _cartingService.Create(id);
+        
+        return Created(id, id);
+    }
 }

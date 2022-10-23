@@ -16,7 +16,7 @@ public static class ServiceConfigurationExtension
             options.ConnectionString = configuration
                 .GetConnectionString(ConnectionSettings.ConnectionName)
         );
-        
+
         return services;
     }
 }

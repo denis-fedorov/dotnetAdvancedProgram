@@ -1,4 +1,5 @@
 ﻿using CartingService.Core.Entities;
+using CartingService.Core.Exceptions;
 using CartingService.Core.Interfaces;
 using CartingService.SharedKernel;
 
@@ -15,7 +16,14 @@ public class CartingService : ICartingService
 
     public void Create(string id)
     {
-        throw new NotImplementedException();
+        NullGuard.ThrowIfNull(id);
+        if (_cartingRepository.Exists(id))
+        {
+            throw new CartAlreadyCreatedException(id);
+        }
+
+        var cart = new Cart(id);
+        _cartingRepository.Add(cart);
     }
 
     public Cart? Get(string id)
