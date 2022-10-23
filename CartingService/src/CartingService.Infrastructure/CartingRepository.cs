@@ -156,9 +156,15 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
 
-            var itemsCollection = db.GetCollection<Item>(DbMappings.ItemsTableName);
-            itemsCollection.Delete(itemId);
+            var cart = cartsCollection
+                .Include(c => c.Items)
+                .FindById(cartId);
+            
+            cart.RemoveItem(itemId);
+
+            cartsCollection.Update(cart);
         }
         catch (Exception e)
         {

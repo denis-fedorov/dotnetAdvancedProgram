@@ -42,11 +42,6 @@ public class Cart : EntityBase
         _items.Remove(itemToRemove);
     }
 
-    public void ClearCart()
-    {
-        _items.Clear();
-    }
-
     public override string ToString()
     {
         var allItems = new StringBuilder($"Cart with id '{Id}' has:{Environment.NewLine}");
