@@ -6,7 +6,7 @@ public static class ServiceConfigurationExtension
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
-        services.AddScoped<ICartingService, CartingService.Core.CartingService>();
+        services.AddScoped<ICartingService, Core.Services.CartingService>();
 
         return services;
     }
