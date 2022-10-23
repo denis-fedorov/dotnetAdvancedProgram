@@ -1,6 +1,5 @@
 ﻿using CartingService.Core.Interfaces;
 using CartingService.Infrastructure.Settings;
-using LiteDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
