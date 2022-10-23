@@ -1,5 +1,6 @@
 ﻿using CartingService.Core.Interfaces;
 using CartingService.Infrastructure.Settings;
+using LiteDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +8,7 @@ namespace CartingService.Infrastructure.Extensions;
 
 public static class ServiceConfigurationExtension
 {
-    public static IServiceCollection ConfigureInfrastructure(
+    public static void ConfigureInfrastructure(
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
@@ -16,7 +17,7 @@ public static class ServiceConfigurationExtension
             options.ConnectionString = configuration
                 .GetConnectionString(ConnectionSettings.ConnectionName)
         );
-
-        return services;
+        
+        BsonMapper.Global.UpdateDbMappings();
     }
 }
