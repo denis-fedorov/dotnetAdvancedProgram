@@ -23,11 +23,20 @@ public class CartingService : ICartingService
         }
 
         var cart = new Cart(id);
-        _cartingRepository.Add(cart);
+        _cartingRepository.Create(cart);
     }
 
     public Cart? Get(string id)
     {
+        NullGuard.ThrowIfNull(id);
+        
         return _cartingRepository.Get(id);
+    }
+
+    public void Delete(string id)
+    {
+        NullGuard.ThrowIfNull(id);
+        
+        _cartingRepository.Delete(id);
     }
 }

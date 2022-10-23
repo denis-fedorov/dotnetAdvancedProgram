@@ -38,8 +38,19 @@ public class CartingServiceController : ControllerBase
     public IActionResult CreateCart(string id)
     {
         _logger.LogInformation("Create a cart with id {Id}", id);
+        
         _cartingService.Create(id);
         
         return Created(id, id);
+    }
+
+    [HttpDelete("cart/id/{id}")]
+    public IActionResult DeleteCart(string id)
+    {
+        _logger.LogInformation("Delete a cart with id {Id}", id);
+        
+        _cartingService.Delete(id);
+
+        return NoContent();
     }
 }

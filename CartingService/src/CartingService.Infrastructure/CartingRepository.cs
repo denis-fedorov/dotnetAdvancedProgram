@@ -43,7 +43,7 @@ public class CartingRepository : ICartingRepository
         }
     }
 
-    public void Add(Cart cart)
+    public void Create(Cart cart)
     {
         try
         {
@@ -70,6 +70,21 @@ public class CartingRepository : ICartingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "There is an error while finding a cart from DB ('{ConnectionString}')", _connectionString);
+            throw new DatabaseException(_connectionString!, e);
+        }
+    }
+
+    public void Delete(string id)
+    {
+        try
+        {
+            using var db = new LiteDatabase(_connectionString);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            cartsCollection.Delete(id);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "There is an error while deleting a cart from DB ('{ConnectionString}')", _connectionString);
             throw new DatabaseException(_connectionString!, e);
         }
     }

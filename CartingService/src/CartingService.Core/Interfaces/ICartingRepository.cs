@@ -6,7 +6,9 @@ public interface ICartingRepository
 {
     public Cart? Get(string id);
 
-    public void Add(Cart cart);
+    public void Create(Cart cart);
 
     public bool Exists(string id);
+    
+    public void Delete(string id);
 }
