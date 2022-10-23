@@ -17,7 +17,5 @@ public static class ServiceConfigurationExtension
             options.ConnectionString = configuration
                 .GetConnectionString(ConnectionSettings.ConnectionName)
         );
-        
-        BsonMapper.Global.UpdateDbMappings();
     }
 }
