@@ -96,7 +96,9 @@ public class CartingRepository : ICartingRepository
             using var db = new LiteDatabase(_connectionString);
             var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
 
-            var cart = cartsCollection.FindById(cartId);
+            var cart = cartsCollection
+                .Include(c => c.Items)
+                .FindById(cartId);
             var item = cart?.Items.SingleOrDefault(i => i.Id == itemId);
             
             return item;
