@@ -33,4 +33,4 @@ artifacts/
 
 # System Files
 .DS_Store
-Thumbs.db
+*.db
