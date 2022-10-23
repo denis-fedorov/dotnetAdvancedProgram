@@ -53,4 +53,20 @@ public class CartingServiceController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("cart/id/{cartId}/item/{itemId}")]
+    public IActionResult GetItem(string cartId, string itemId)
+    {
+        _logger.LogInformation("Requesting an item '{ItemId}' from the cart '{CartId}'", itemId, cartId);
+
+        var item = _cartingService.GetItem(cartId, itemId);
+        if (item is null)
+        {
+            _logger.LogInformation("An item '{ItemId}' from the cart '{CartId}' was not found", itemId, cartId);
+
+            return NotFound($"Cart id: {cartId}, item id: {itemId}");
+        }
+
+        return Ok(item);
+    }
 }

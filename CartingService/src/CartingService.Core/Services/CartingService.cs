@@ -39,4 +39,12 @@ public class CartingService : ICartingService
         
         _cartingRepository.Delete(id);
     }
+
+    public Item? GetItem(string cartId, string itemId)
+    {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(itemId);
+
+        return _cartingRepository.GetItem(cartId, itemId);
+    }
 }

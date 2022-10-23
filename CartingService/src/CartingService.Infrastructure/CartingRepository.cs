@@ -88,4 +88,23 @@ public class CartingRepository : ICartingRepository
             throw new DatabaseException(_connectionString!, e);
         }
     }
+
+    public Item? GetItem(string cartId, string itemId)
+    {
+        try
+        {
+            using var db = new LiteDatabase(_connectionString);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+
+            var cart = cartsCollection.FindById(cartId);
+            var item = cart?.Items.SingleOrDefault(i => i.Id == itemId);
+            
+            return item;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "There is an error while getting a cart from DB ('{ConnectionString}')", _connectionString);
+            throw new DatabaseException(_connectionString!, e);
+        }
+    }
 }
