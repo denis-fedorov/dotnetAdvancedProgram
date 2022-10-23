@@ -1,4 +1,5 @@
 using CartingService.Api.Extensions;
+using CartingService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureServices();
+builder.Services
+    .ConfigureServices()
+    .ConfigureInfrastructure();
 
 var app = builder.Build();
 
