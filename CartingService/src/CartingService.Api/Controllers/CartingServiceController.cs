@@ -26,7 +26,9 @@ public class CartingServiceController : ControllerBase
         var cart = _cartingService.Get(id);
         if (cart is null)
         {
-            return NotFound($"Cart with id '{id}' was not found'");
+            _logger.LogWarning("Cart with id '{Id}' was not found", id);
+            
+            return NotFound(id);
         }
 
         return Ok(cart);
