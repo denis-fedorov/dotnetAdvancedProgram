@@ -27,6 +27,8 @@ public class CartingRepository : ICartingRepository
     
     public Cart? Get(string id)
     {
+        NullGuard.ThrowIfNull(id);
+        
         try
         {
             using var db = new LiteDatabase(_connectionString);
@@ -45,6 +47,8 @@ public class CartingRepository : ICartingRepository
 
     public void Create(Cart cart)
     {
+        NullGuard.ThrowIfNull(cart);
+        
         try
         {
             using var db = new LiteDatabase(_connectionString);
@@ -60,6 +64,8 @@ public class CartingRepository : ICartingRepository
 
     public bool Exists(string id)
     {
+        NullGuard.ThrowIfNull(id);
+        
         try
         {
             using var db = new LiteDatabase(_connectionString);
@@ -76,6 +82,8 @@ public class CartingRepository : ICartingRepository
 
     public void Delete(string id)
     {
+        NullGuard.ThrowIfNull(id);
+        
         try
         {
             using var db = new LiteDatabase(_connectionString);
@@ -91,6 +99,9 @@ public class CartingRepository : ICartingRepository
 
     public Item? GetItem(string cartId, string itemId)
     {
+        NullGuard.ThrowIfNull(cartId);
+        NullGuard.ThrowIfNull(itemId);
+        
         try
         {
             using var db = new LiteDatabase(_connectionString);
