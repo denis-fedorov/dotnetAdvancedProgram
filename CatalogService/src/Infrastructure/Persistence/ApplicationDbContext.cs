@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using System.Reflection;
+using Application.Interfaces;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,5 +15,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         : base(dbContextOptions)
     {
         // do nothing
+    }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        base.OnModelCreating(builder);
     }
 }
