@@ -11,6 +11,8 @@ namespace CartingService.Infrastructure;
 
 public class CartingRepository : ICartingRepository
 {
+    public const string CartsTableName = "carts";
+    
     private readonly ILogger<CartingRepository> _logger;
     private readonly string? _connectionString;
 
@@ -32,7 +34,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
@@ -54,7 +56,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
             cartsCollection.Insert(cart);
         }
         catch (Exception e)
@@ -71,7 +73,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
 
             return cartsCollection.Exists(cart => cart.Id == id);
         }
@@ -89,7 +91,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
             cartsCollection.Delete(id);
         }
         catch (Exception e)
@@ -106,7 +108,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
             cartsCollection.Update(cart);
         }
         catch (Exception e)
