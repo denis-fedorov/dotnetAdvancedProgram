@@ -11,7 +11,7 @@ namespace CartingService.Infrastructure;
 
 public class CartingRepository : ICartingRepository
 {
-    public const string CartsTableName = "carts";
+    private const string CartsTableName = "carts";
     
     private readonly ILogger<CartingRepository> _logger;
     private readonly string? _connectionString;
