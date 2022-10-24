@@ -12,9 +12,5 @@ public interface ICartingRepository
     
     public void Delete(string id);
 
-    public Item? GetItem(string cartId, string itemId);
-    
-    public void CreateItem(string cartId, Item item);
-
-    public void DeleteItem(string cartId, string itemId);
+    public void Update(Cart cart);
 }

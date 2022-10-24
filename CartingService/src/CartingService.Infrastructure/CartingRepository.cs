@@ -100,81 +100,19 @@ public class CartingRepository : ICartingRepository
         }
     }
 
-    public Item? GetItem(string cartId, string itemId)
+    public void Update(Cart cart)
     {
-        NullGuard.ThrowIfNull(cartId);
-        NullGuard.ThrowIfNull(itemId);
+        NullGuard.ThrowIfNull(cart);
         
         try
         {
             using var db = new LiteDatabase(_connectionString);
             var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
-
-            var cart = cartsCollection
-                .Include(c => c.Items)
-                .FindById(cartId);
-            var item = cart?.Items.SingleOrDefault(i => i.Id == itemId);
-            
-            return item?.ToItem();
+            cartsCollection.Update(new CartDto(cart));
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "There is an error while getting an item from DB ('{ConnectionString}')", _connectionString);
-            throw new DatabaseException(_connectionString!, e);
-        }
-    }
-
-    public void CreateItem(string cartId, Item item)
-    {
-        NullGuard.ThrowIfNull(cartId);
-        NullGuard.ThrowIfNull(item);
-        
-        try
-        {
-            using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
-
-            var cart = cartsCollection
-                .Include(c => c.Items)
-                .FindById(cartId);
-
-            cart.Items.Add(new ItemDto(item));
-
-            cartsCollection.Update(cart);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "There is an error while creating an item from DB ('{ConnectionString}')", _connectionString);
-            throw new DatabaseException(_connectionString!, e);
-        }
-    }
-
-    public void DeleteItem(string cartId, string itemId)
-    {
-        NullGuard.ThrowIfNull(cartId);
-        NullGuard.ThrowIfNull(itemId);
-        
-        try
-        {
-            using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
-
-            var cart = cartsCollection
-                .Include(c => c.Items)
-                .FindById(cartId);
-
-            var itemToRemove = cart.Items.SingleOrDefault(i => i.Id == itemId);
-            if (itemToRemove is null)
-            {
-                return;
-            }
-
-            cart.Items.Remove(itemToRemove);
-            cartsCollection.Update(cart);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "There is an error while deleting an cart from DB ('{ConnectionString}')", _connectionString);
+            _logger.LogError(e, "There is an error while updating a cart from DB ('{ConnectionString}')", _connectionString);
             throw new DatabaseException(_connectionString!, e);
         }
     }

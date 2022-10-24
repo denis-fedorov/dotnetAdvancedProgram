@@ -45,7 +45,14 @@ public class CartingService : ICartingService
         NullGuard.ThrowIfNull(cartId);
         NullGuard.ThrowIfNull(item);
         
-        _cartingRepository.CreateItem(cartId, item);
+        var cart = _cartingRepository.Get(cartId);
+        if (cart is null)
+        {
+            throw new CartNotFoundException(cartId);
+        }
+        
+        cart.AddItem(item);
+        _cartingRepository.Update(cart);    
     }
 
     public Item? GetItem(string cartId, string itemId)
@@ -53,14 +60,27 @@ public class CartingService : ICartingService
         NullGuard.ThrowIfNull(cartId);
         NullGuard.ThrowIfNull(itemId);
 
-        return _cartingRepository.GetItem(cartId, itemId);
+        var cart = _cartingRepository.Get(cartId);
+        if (cart is null)
+        {
+            throw new CartNotFoundException(cartId);
+        }
+        
+        return cart.Items.SingleOrDefault(i => i.Id == itemId);
     }
 
     public void DeleteItem(string cartId, string itemId)
     {
         NullGuard.ThrowIfNull(cartId);
         NullGuard.ThrowIfNull(itemId);
-
-        _cartingRepository.DeleteItem(cartId, itemId);
+        
+        var cart = _cartingRepository.Get(cartId);
+        if (cart is null)
+        {
+            throw new CartNotFoundException(cartId);
+        }
+        
+        cart.RemoveItem(itemId);
+        _cartingRepository.Update(cart);    
     }
 }
