@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Text;
 using CartingService.Core.Exceptions;
 using CartingService.SharedKernel;
 
@@ -8,7 +7,7 @@ namespace CartingService.Core.Entities;
 public class Cart : EntityBase
 {
     private readonly List<Item> _items;
-    public ReadOnlyCollection<Item> Items => _items.AsReadOnly();
+    public IEnumerable<Item> Items => _items.AsReadOnly();
 
     public Cart(string id)
     {

@@ -1,5 +1,6 @@
 ﻿using CartingService.Core.Entities;
 using CartingService.Core.Interfaces;
+using CartingService.Infrastructure.Dtos;
 using CartingService.Infrastructure.Exceptions;
 using CartingService.Infrastructure.Settings;
 using CartingService.SharedKernel;
@@ -32,13 +33,13 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
                 .FindById(id);
             
-            return cart;
+            return cart?.ToCart();
         }
         catch (Exception e)
         {
@@ -54,8 +55,8 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
-            cartsCollection.Insert(cart);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
+            cartsCollection.Insert(new CartDto(cart));
         }
         catch (Exception e)
         {
@@ -71,7 +72,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
 
             return cartsCollection.Exists(cart => cart.Id == id);
         }
@@ -89,7 +90,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
             cartsCollection.Delete(id);
         }
         catch (Exception e)
@@ -107,14 +108,14 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
                 .FindById(cartId);
             var item = cart?.Items.SingleOrDefault(i => i.Id == itemId);
             
-            return item;
+            return item?.ToItem();
         }
         catch (Exception e)
         {
@@ -131,13 +132,13 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
                 .FindById(cartId);
-            
-            cart.AddItem(item);
+
+            cart.Items.Add(new ItemDto(item));
 
             cartsCollection.Update(cart);
         }
@@ -156,14 +157,19 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
                 .FindById(cartId);
-            
-            cart.RemoveItem(itemId);
 
+            var itemToRemove = cart.Items.SingleOrDefault(i => i.Id == itemId);
+            if (itemToRemove is null)
+            {
+                return;
+            }
+
+            cart.Items.Remove(itemToRemove);
             cartsCollection.Update(cart);
         }
         catch (Exception e)
