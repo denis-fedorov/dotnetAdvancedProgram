@@ -1,6 +1,5 @@
 ﻿using CartingService.Core.Entities;
 using CartingService.Core.Interfaces;
-using CartingService.Infrastructure.Dtos;
 using CartingService.Infrastructure.Exceptions;
 using CartingService.Infrastructure.Settings;
 using CartingService.SharedKernel;
@@ -33,13 +32,13 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
 
             var cart = cartsCollection
                 .Include(c => c.Items)
                 .FindById(id);
             
-            return cart?.ToCart();
+            return cart;
         }
         catch (Exception e)
         {
@@ -55,8 +54,8 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
-            cartsCollection.Insert(new CartDto(cart));
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            cartsCollection.Insert(cart);
         }
         catch (Exception e)
         {
@@ -72,7 +71,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
 
             return cartsCollection.Exists(cart => cart.Id == id);
         }
@@ -90,7 +89,7 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
             cartsCollection.Delete(id);
         }
         catch (Exception e)
@@ -107,8 +106,8 @@ public class CartingRepository : ICartingRepository
         try
         {
             using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<CartDto>(DbMappings.CartsTableName);
-            cartsCollection.Update(new CartDto(cart));
+            var cartsCollection = db.GetCollection<Cart>(DbMappings.CartsTableName);
+            cartsCollection.Update(cart);
         }
         catch (Exception e)
         {
