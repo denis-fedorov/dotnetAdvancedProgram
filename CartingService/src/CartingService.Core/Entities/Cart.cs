@@ -6,13 +6,11 @@ namespace CartingService.Core.Entities;
 
 public class Cart : EntityBase
 {
-    private readonly List<Item> _items;
-    public IEnumerable<Item> Items => _items.AsReadOnly();
+    public IList<Item> Items { get; private set; } = new List<Item>();
 
     public Cart(string id)
     {
         Id = NullGuard.ThrowIfNull(id);
-        _items = new List<Item>();
     }
 
     public void AddItem(Item item)
@@ -20,31 +18,31 @@ public class Cart : EntityBase
         NullGuard.ThrowIfNull(item);
         
         var itemId = item.Id;
-        if (_items.Any(i => i.Id == itemId))
+        if (Items.Any(i => i.Id == itemId))
         {
             throw new ItemAlreadyAddedException(itemId);
         }
         
-        _items.Add(item);
+        Items.Add(item);
     }
 
     public void RemoveItem(string itemId)
     {
         NullGuard.ThrowIfNull(itemId);
         
-        var itemToRemove = _items.SingleOrDefault(i => i.Id == itemId);
+        var itemToRemove = Items.SingleOrDefault(i => i.Id == itemId);
         if (itemToRemove is null)
         {
             throw new RemoveNonAddedItemException(itemId);
         }
 
-        _items.Remove(itemToRemove);
+        Items.Remove(itemToRemove);
     }
 
     public override string ToString()
     {
         var allItems = new StringBuilder($"Cart with id '{Id}' has:{Environment.NewLine}");
-        foreach (var item in _items)
+        foreach (var item in Items)
         {
             allItems.AppendLine(item.ToString());
         }
