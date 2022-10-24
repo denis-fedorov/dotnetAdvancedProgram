@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 
 namespace WebApi.Controllers;
 
@@ -13,10 +14,26 @@ public class CategoryController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("category/id/{id}")]
-    public IActionResult Get(string id)
+    [HttpGet("category")]
+    public IActionResult GetAll()
     {
-        _logger.LogInformation("Getting a category with id {Id}", id);
+        _logger.LogInformation("Getting all categories");
+
+        return Ok();
+    }
+
+    [HttpGet("category/name/{name}")]
+    public IActionResult Get(string name)
+    {
+        _logger.LogInformation("Getting a category with name {Name}", name);
+        
+        return Ok();
+    }
+    
+    [HttpPost("category")]
+    public IActionResult Create([FromBody] CreateCategoryRequest createCategoryRequest)
+    {
+        _logger.LogInformation("Creating a category");
         
         return Ok();
     }
