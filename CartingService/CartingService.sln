@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartingService.Api", "src\CartingService.Api\CartingService.Api.csproj", "{6314A68E-7692-43EF-B063-9884D024EFF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B21989B-0D08-4ED5-BA1C-A9FE20FBB31E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartingService.Core", "src\CartingService.Core\CartingService.Core.csproj", "{8241469A-1F00-4B4D-9D4D-93323801C5CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartingService.SharedKernel", "src\CartingService.SharedKernel\CartingService.SharedKernel.csproj", "{0E193BDE-694E-4D0E-A02D-C260848FEEEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartingService.Infrastructure", "src\CartingService.Infrastructure\CartingService.Infrastructure.csproj", "{A708894F-6E75-47AE-9E9C-FCDA528F8173}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6314A68E-7692-43EF-B063-9884D024EFF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6314A68E-7692-43EF-B063-9884D024EFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6314A68E-7692-43EF-B063-9884D024EFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6314A68E-7692-43EF-B063-9884D024EFF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8241469A-1F00-4B4D-9D4D-93323801C5CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8241469A-1F00-4B4D-9D4D-93323801C5CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8241469A-1F00-4B4D-9D4D-93323801C5CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8241469A-1F00-4B4D-9D4D-93323801C5CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E193BDE-694E-4D0E-A02D-C260848FEEEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E193BDE-694E-4D0E-A02D-C260848FEEEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E193BDE-694E-4D0E-A02D-C260848FEEEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E193BDE-694E-4D0E-A02D-C260848FEEEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A708894F-6E75-47AE-9E9C-FCDA528F8173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A708894F-6E75-47AE-9E9C-FCDA528F8173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A708894F-6E75-47AE-9E9C-FCDA528F8173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A708894F-6E75-47AE-9E9C-FCDA528F8173}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6314A68E-7692-43EF-B063-9884D024EFF1} = {7B21989B-0D08-4ED5-BA1C-A9FE20FBB31E}
+		{8241469A-1F00-4B4D-9D4D-93323801C5CC} = {7B21989B-0D08-4ED5-BA1C-A9FE20FBB31E}
+		{0E193BDE-694E-4D0E-A02D-C260848FEEEF} = {7B21989B-0D08-4ED5-BA1C-A9FE20FBB31E}
+		{A708894F-6E75-47AE-9E9C-FCDA528F8173} = {7B21989B-0D08-4ED5-BA1C-A9FE20FBB31E}
+	EndGlobalSection
+EndGlobal
