@@ -27,11 +27,6 @@ public class CategoryController : ControllerBase
         var request = new GetCategoriesQuery();
         var result = (await _sender.Send(request)).ToList();
 
-        if (result.Count == 0)
-        {
-            return NotFound();
-        }
-        
         return Ok(result);
     }
 

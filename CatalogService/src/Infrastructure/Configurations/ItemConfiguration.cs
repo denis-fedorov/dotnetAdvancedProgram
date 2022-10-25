@@ -10,7 +10,7 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
     {
         builder
             .Property(item => item.Name)
-            .HasMaxLength(50)
+            .HasMaxLength(Item.NameMaxLength)
             .IsRequired();
     }
 }

@@ -5,6 +5,8 @@ namespace Core.Entities;
 
 public sealed class Item : EntityBase
 {
+    public const int NameMaxLength = 50;
+    
     public string Name { get; private set; }
     
     public string? Description { get; private set; }
@@ -23,6 +25,11 @@ public sealed class Item : EntityBase
     public Item(string name, string? description, string? image, Category category, decimal price, uint amount)
     {
         Name = NullGuard.ThrowIfNull(name);
+        if (Name.Length >= NameMaxLength)
+        {
+            throw new NameTooLongException(Name, NameMaxLength);
+        }
+        
         Description = description;
         Image = image;
         Category = NullGuard.ThrowIfNull(category);

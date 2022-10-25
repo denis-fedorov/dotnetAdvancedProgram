@@ -29,6 +29,6 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEn
 
         return allCategories
             .Select(CategoryViewModel.FromEntity)
-            .ToList();
+            .ToList()!;
     }
 }
