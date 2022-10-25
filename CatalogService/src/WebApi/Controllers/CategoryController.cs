@@ -1,8 +1,8 @@
+using Application.Categories.CreateCategory;
 using Application.Categories.GetCategories;
 using Application.Categories.GetCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
 
 namespace WebApi.Controllers;
 
@@ -52,10 +52,13 @@ public class CategoryController : ControllerBase
     }
     
     [HttpPost("category")]
-    public IActionResult Create([FromBody] CreateCategoryRequest createCategoryRequest)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
         _logger.LogInformation("Creating a category");
-        
-        return Ok();
+
+        var request = new CreateCategoryCommand(createCategoryModel);
+        await _sender.Send(request);
+
+        return Created(createCategoryModel.Name, createCategoryModel.Name);
     }
 }

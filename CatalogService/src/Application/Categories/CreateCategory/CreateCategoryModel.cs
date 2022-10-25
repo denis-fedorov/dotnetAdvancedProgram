@@ -1,6 +1,6 @@
-﻿namespace WebApi.Models;
+﻿namespace Application.Categories.CreateCategory;
 
-public sealed class CreateCategoryRequest
+public sealed class CreateCategoryModel
 {
     public string Name { get; set; }
 
