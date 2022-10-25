@@ -18,9 +18,11 @@ public sealed class Item : EntityBase
     public decimal Price { get; private set; }
     
     public uint Amount { get; private set; }
-    
-    protected Item()
-    { }
+
+    private Item()
+    {
+        // hack
+    }
 
     public Item(string name, string? description, string? image, Category category, decimal price, uint amount)
     {

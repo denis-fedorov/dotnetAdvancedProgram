@@ -16,7 +16,7 @@ public class GetCategoryQuery : IRequest<CategoryViewModel>
 
 // ReSharper disable once UnusedType.Global
 // Used by MediatR
-public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, CategoryViewModel>
+public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, CategoryViewModel?>
 {
     private readonly IApplicationDbContext _applicationDbContext;
 
@@ -25,7 +25,7 @@ public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, Categor
         _applicationDbContext = applicationDbContext;
     }
 
-    public async Task<CategoryViewModel> Handle(GetCategoryQuery request, CancellationToken ct)
+    public async Task<CategoryViewModel?> Handle(GetCategoryQuery request, CancellationToken ct)
     {
         var category = await _applicationDbContext
             .Categories

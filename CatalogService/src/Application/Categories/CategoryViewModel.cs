@@ -11,7 +11,7 @@ public class CategoryViewModel
 
     public string? ParentCategoryName { get; set; }
 
-    public static CategoryViewModel? FromEntity(Category category)
+    public static CategoryViewModel FromEntity(Category category)
     {
         NullGuard.ThrowIfNull(category);
         

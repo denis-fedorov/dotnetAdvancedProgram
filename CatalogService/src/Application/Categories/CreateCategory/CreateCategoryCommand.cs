@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Core.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,18 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     public async Task<Unit> Handle(CreateCategoryCommand request, CancellationToken ct)
     {
         NullGuard.ThrowIfNull(request);
+        var model = NullGuard.ThrowIfNull(request.CreateCategoryModel);
         
-        var model = request.CreateCategoryModel; 
-        NullGuard.ThrowIfNull(model);
-
-        var parentCategory = await GetParentCategory(model.ParentCategoryName, ct);
+        var parentCategoryName = model.ParentCategoryName;
+        Category? parentCategory = null;
+        if (!string.IsNullOrWhiteSpace(parentCategoryName))
+        {
+            parentCategory = await GetParentCategory(parentCategoryName, ct);
+            if (parentCategory is null)
+            {
+                throw new ParentCategoryNotFoundException(parentCategoryName);
+            }    
+        }
 
         var category = new Category(model.Name, model.Image, parentCategory);
         await _applicationDbContext.Categories.AddAsync(category, ct);

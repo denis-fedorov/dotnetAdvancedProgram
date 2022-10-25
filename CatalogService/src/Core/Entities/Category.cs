@@ -12,9 +12,11 @@ public sealed class Category : EntityBase
     public string? Image { get; private set; }
 
     public Category? ParentCategory { get; private set; }
-    
-    protected Category()
-    { }
+
+    private Category()
+    {
+        // hack
+    }
 
     public Category(string name, string? image, Category? parentCategory)
     {
