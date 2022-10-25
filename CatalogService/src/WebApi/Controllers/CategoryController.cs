@@ -1,3 +1,5 @@
+using Application.Categories.GetCategories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -8,18 +10,23 @@ namespace WebApi.Controllers;
 public class CategoryController : ControllerBase
 {
     private readonly ILogger<CategoryController> _logger;
+    private readonly ISender _sender;
 
-    public CategoryController(ILogger<CategoryController> logger)
+    public CategoryController(ILogger<CategoryController> logger, ISender sender)
     {
         _logger = logger;
+        _sender = sender;
     }
 
     [HttpGet("category")]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all categories");
 
-        return Ok();
+        var request = new GetCategoriesQuery();
+        var result = await _sender.Send(request);
+
+        return Ok(result);
     }
 
     [HttpGet("category/name/{name}")]

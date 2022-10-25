@@ -17,6 +17,9 @@ public sealed class Item : EntityBase
     
     public uint Amount { get; private set; }
     
+    protected Item()
+    { }
+
     public Item(string name, string? description, string? image, Category category, decimal price, uint amount)
     {
         Name = NullGuard.ThrowIfNull(name);
