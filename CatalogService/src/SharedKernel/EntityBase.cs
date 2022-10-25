@@ -2,5 +2,5 @@
 
 public abstract class EntityBase
 {
-    public string Id { get; protected init; } = string.Empty;
+    public int Id { get; protected init; }
 }

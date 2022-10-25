@@ -1,4 +1,5 @@
 using Application.Categories.GetCategories;
+using Application.Categories.GetCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
@@ -24,17 +25,30 @@ public class CategoryController : ControllerBase
         _logger.LogInformation("Getting all categories");
 
         var request = new GetCategoriesQuery();
-        var result = await _sender.Send(request);
+        var result = (await _sender.Send(request)).ToList();
 
+        if (result.Count == 0)
+        {
+            return NotFound();
+        }
+        
         return Ok(result);
     }
 
     [HttpGet("category/name/{name}")]
-    public IActionResult Get(string name)
+    public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Getting a category with name {Name}", name);
+
+        var request = new GetCategoryQuery(name);
+        var result = await _sender.Send(request);
+
+        if (result is null)
+        {
+            return NotFound($"Category '{name}' was not found");
+        }
         
-        return Ok();
+        return Ok(result);
     }
     
     [HttpPost("category")]

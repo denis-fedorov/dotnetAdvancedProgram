@@ -22,6 +22,7 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEn
     {
         var allCategories = await _applicationDbContext
             .Categories
+            .Include(c => c.ParentCategory)
             .AsNoTracking()
             .OrderBy(c => c.Name)
             .ToListAsync(ct);
