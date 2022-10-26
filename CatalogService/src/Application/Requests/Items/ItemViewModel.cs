@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using SharedKernel;
 
-namespace Application.Requests.Items.GetItems;
+namespace Application.Requests.Items;
 
 public class ItemViewModel
 {

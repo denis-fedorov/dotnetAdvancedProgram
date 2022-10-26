@@ -13,7 +13,7 @@ public class CreateCategoryCommand : IRequest
     
     public CreateCategoryCommand(CreateCategoryModel createCategoryModel)
     {
-        CreateCategoryModel = createCategoryModel;
+        CreateCategoryModel = NullGuard.ThrowIfNull(createCategoryModel);
     }
 }
 

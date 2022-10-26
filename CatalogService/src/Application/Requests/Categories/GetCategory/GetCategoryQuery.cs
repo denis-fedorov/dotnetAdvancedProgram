@@ -1,16 +1,17 @@
 ﻿using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 
 namespace Application.Requests.Categories.GetCategory;
 
-public class GetCategoryQuery : IRequest<CategoryViewModel>
+public class GetCategoryQuery : IRequest<CategoryViewModel?>
 {
     public string Name { get; }
 
     public GetCategoryQuery(string name)
     {
-        Name = name;
+        Name = NullGuard.ThrowIfNull(name);;
     }
 }
 

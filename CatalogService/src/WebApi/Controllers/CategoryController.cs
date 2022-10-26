@@ -7,36 +7,35 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class CategoryController : ControllerBase
+[Route("[controller]/category")]
+public class CategoryController : SenderControllerBase
 {
     private readonly ILogger<CategoryController> _logger;
-    private readonly ISender _sender;
 
     public CategoryController(ILogger<CategoryController> logger, ISender sender)
+        : base(sender)
     {
         _logger = logger;
-        _sender = sender;
     }
 
-    [HttpGet("category")]
+    [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all categories");
 
         var request = new GetCategoriesQuery();
-        var result = (await _sender.Send(request)).ToList();
+        var result = (await Sender.Send(request)).ToList();
 
         return Ok(result);
     }
 
-    [HttpGet("category/name/{name}")]
+    [HttpGet("name/{name}")]
     public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Getting a category with name {Name}", name);
 
         var request = new GetCategoryQuery(name);
-        var result = await _sender.Send(request);
+        var result = await Sender.Send(request);
 
         if (result is null)
         {
@@ -46,13 +45,13 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost("category")]
+    [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
         _logger.LogInformation("Creating a category");
 
         var request = new CreateCategoryCommand(createCategoryModel);
-        await _sender.Send(request);
+        await Sender.Send(request);
 
         return Created(createCategoryModel.Name, createCategoryModel.Name);
     }
