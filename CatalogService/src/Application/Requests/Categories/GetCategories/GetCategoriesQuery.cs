@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Categories.GetCategories;
+namespace Application.Requests.Categories.GetCategories;
 
 public class GetCategoriesQuery : IRequest<IEnumerable<CategoryViewModel>>
 { }

@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
-namespace Application.Categories.CreateCategory;
+namespace Application.Requests.Categories.CreateCategory;
 
 public class CreateCategoryCommand : IRequest
 {

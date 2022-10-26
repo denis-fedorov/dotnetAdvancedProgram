@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using SharedKernel;
 
-namespace Application.Categories;
+namespace Application.Requests.Categories;
 
 public class CategoryViewModel
 {

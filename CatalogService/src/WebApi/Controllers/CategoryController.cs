@@ -1,6 +1,6 @@
-using Application.Categories.CreateCategory;
-using Application.Categories.GetCategories;
-using Application.Categories.GetCategory;
+using Application.Requests.Categories.CreateCategory;
+using Application.Requests.Categories.GetCategories;
+using Application.Requests.Categories.GetCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

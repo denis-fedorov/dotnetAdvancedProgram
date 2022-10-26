@@ -1,4 +1,4 @@
-﻿namespace Application.Categories.CreateCategory;
+﻿namespace Application.Requests.Categories.CreateCategory;
 
 public sealed class CreateCategoryModel
 {
