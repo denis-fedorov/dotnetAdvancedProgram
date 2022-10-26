@@ -48,7 +48,7 @@ public class CategoryController : SenderControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
-        _logger.LogInformation("Creating a category");
+        _logger.LogInformation("Creating a category: {@CreateCategoryModel}", createCategoryModel);
 
         var request = new CreateCategoryCommand(createCategoryModel);
         await Sender.Send(request);

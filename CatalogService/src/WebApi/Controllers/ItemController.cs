@@ -1,4 +1,5 @@
-﻿using Application.Requests.Items.GetItem;
+﻿using Application.Requests.Items.CreateItem;
+using Application.Requests.Items.GetItem;
 using Application.Requests.Items.GetItems;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -42,5 +43,16 @@ public class ItemController : SenderControllerBase
         }
 
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateItemModel createItemModel)
+    {
+        _logger.LogInformation("Create an item: {@CreateItemModel}", createItemModel);
+
+        var command = new CreateItemCommand(createItemModel);
+        await Sender.Send(command);
+
+        return Created(createItemModel.Name, createItemModel.Name);
     }
 }
