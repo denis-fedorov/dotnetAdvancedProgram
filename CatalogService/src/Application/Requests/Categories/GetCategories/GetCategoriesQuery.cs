@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Requests.Categories.GetCategories;
 
-public class GetCategoriesQuery : IRequest<IEnumerable<CategoryViewModel>>
+public class GetCategoriesQuery : IRequest<GetCategoriesViewModel>
 { }
 
 // ReSharper disable once UnusedType.Global
 // Used by MediatR
-public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEnumerable<CategoryViewModel>>
+public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, GetCategoriesViewModel>
 {
     private readonly IApplicationDbContext _applicationDbContext;
 
@@ -18,7 +18,7 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEn
         _applicationDbContext = applicationDbContext;
     }
 
-    public async Task<IEnumerable<CategoryViewModel>> Handle(GetCategoriesQuery request, CancellationToken ct)
+    public async Task<GetCategoriesViewModel> Handle(GetCategoriesQuery request, CancellationToken ct)
     {
         var allCategories = await _applicationDbContext
             .Categories
@@ -27,8 +27,6 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, IEn
             .OrderBy(c => c.Name)
             .ToListAsync(ct);
 
-        return allCategories
-            .Select(CategoryViewModel.FromEntity)
-            .ToList()!;
+        return GetCategoriesViewModel.FromEntities(allCategories);
     }
 }

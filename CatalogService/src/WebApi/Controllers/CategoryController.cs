@@ -24,7 +24,7 @@ public class CategoryController : SenderControllerBase
         _logger.LogInformation("Getting all categories");
 
         var request = new GetCategoriesQuery();
-        var result = (await Sender.Send(request)).ToList();
+        var result = await Sender.Send(request);
 
         return Ok(result);
     }
