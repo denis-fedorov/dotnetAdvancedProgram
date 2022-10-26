@@ -11,7 +11,7 @@ public class GetItemQuery : IRequest<ItemViewModel?>
     
     public GetItemQuery(string name)
     {
-        Name = NullGuard.ThrowIfNull(name);;
+        Name = NullGuard.ThrowIfNull(name);
     }
 }
 

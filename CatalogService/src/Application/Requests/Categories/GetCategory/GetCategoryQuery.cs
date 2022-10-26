@@ -11,7 +11,7 @@ public class GetCategoryQuery : IRequest<CategoryViewModel?>
 
     public GetCategoryQuery(string name)
     {
-        Name = NullGuard.ThrowIfNull(name);;
+        Name = NullGuard.ThrowIfNull(name);
     }
 }
 
