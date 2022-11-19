@@ -1,6 +1,7 @@
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using WebApi.Middlewares;
 using WebApi.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
