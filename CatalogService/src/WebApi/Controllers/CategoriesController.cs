@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]/category")]
-public class CategoryController : SenderControllerBase
+[Route("[controller]")]
+public class CategoriesController : SenderControllerBase
 {
-    private readonly ILogger<CategoryController> _logger;
+    private readonly ILogger<CategoriesController> _logger;
 
-    public CategoryController(ILogger<CategoryController> logger, ISender sender)
+    public CategoriesController(ILogger<CategoriesController> logger, ISender sender)
         : base(sender)
     {
         _logger = logger;
@@ -29,7 +29,7 @@ public class CategoryController : SenderControllerBase
         return Ok(result);
     }
 
-    [HttpGet("name/{name}")]
+    [HttpGet("{name}")]
     public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Getting a category with name {Name}", name);

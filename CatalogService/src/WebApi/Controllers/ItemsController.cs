@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]/item")]
-public class ItemController : SenderControllerBase
+[Route("[controller]")]
+public class ItemsController : SenderControllerBase
 {
-    private readonly ILogger<ItemController> _logger;
+    private readonly ILogger<ItemsController> _logger;
 
-    public ItemController(ISender sender, ILogger<ItemController> logger)
+    public ItemsController(ISender sender, ILogger<ItemsController> logger)
         : base(sender)
     {
         _logger = logger;
@@ -29,7 +29,7 @@ public class ItemController : SenderControllerBase
         return Ok(result);
     }
 
-    [HttpGet("name/{name}")]
+    [HttpGet("{name}")]
     public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Get an item '{Name}'", name);

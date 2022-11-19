@@ -1,9 +1,13 @@
 using Application.Extensions;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using WebApi.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+    options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseRouteParameterTransformer())));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
