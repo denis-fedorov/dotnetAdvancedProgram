@@ -39,6 +39,11 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
             throw new CategoryNotFoundException(name);
         }
 
+        if (await NestedCategoriesExist(name, ct))
+        {
+            throw new RootCategoryDeleteException(name);
+        }
+
         var items = await GetItems(name, ct);
         
         _applicationDbContext.Categories.Remove(category);
@@ -57,6 +62,15 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         return await _applicationDbContext
             .Categories
             .FirstOrDefaultAsync(i => i.Name == name, ct);
+    }
+
+    private async Task<bool> NestedCategoriesExist(string name, CancellationToken ct)
+    {
+        return await _applicationDbContext
+            .Categories
+            .AnyAsync(category =>
+                category.ParentCategory != null &&
+                category.ParentCategory.Name == name, ct);
     }
 
     private async Task<List<Item>> GetItems(string categoryName, CancellationToken ct)
