@@ -25,7 +25,7 @@ public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand>
 
     public CreateItemCommandHandler(IApplicationDbContext applicationDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _applicationDbContext = NullGuard.ThrowIfNull(applicationDbContext);
     }
 
     public async Task<Unit> Handle(CreateItemCommand request, CancellationToken ct)

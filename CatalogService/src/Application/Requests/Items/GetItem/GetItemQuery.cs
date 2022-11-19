@@ -23,7 +23,7 @@ public class GetItemQueryHandler : IRequestHandler<GetItemQuery, ItemViewModel?>
 
     public GetItemQueryHandler(IApplicationDbContext applicationDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _applicationDbContext = NullGuard.ThrowIfNull(applicationDbContext);
     }
 
     public async Task<ItemViewModel?> Handle(GetItemQuery request, CancellationToken ct)

@@ -23,7 +23,7 @@ public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, Categor
 
     public GetCategoryQueryHandler(IApplicationDbContext applicationDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _applicationDbContext = NullGuard.ThrowIfNull(applicationDbContext);
     }
 
     public async Task<CategoryViewModel?> Handle(GetCategoryQuery request, CancellationToken ct)

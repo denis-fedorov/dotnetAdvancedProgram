@@ -25,7 +25,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
     public CreateCategoryCommandHandler(IApplicationDbContext applicationDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _applicationDbContext = NullGuard.ThrowIfNull(applicationDbContext);
     }
 
     public async Task<Unit> Handle(CreateCategoryCommand request, CancellationToken ct)
@@ -61,8 +61,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     {
         return await _applicationDbContext
             .Categories
-            .Where(i => i.Name == name)
-            .AnyAsync(ct);
+            .AnyAsync(i => i.Name == name, ct);
     }
 
     private async Task<Category?> GetParentCategory(string? parentCategoryName, CancellationToken ct)
