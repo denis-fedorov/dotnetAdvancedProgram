@@ -20,11 +20,15 @@ public class ItemsController : SenderControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] GetItemsModel getItemsModel)
     {
-        _logger.LogInformation("Get all the items");
+        _logger.LogInformation("Get all the items with {@GetItemsModel} param", getItemsModel);
+        if (!getItemsModel.IsValid())
+        {
+            return BadRequest();
+        }
         
-        var request = new GetItemsQuery();
+        var request = new GetItemsQuery(getItemsModel);
         var result = await Sender.Send(request);
 
         return Ok(result);
