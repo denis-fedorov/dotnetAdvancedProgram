@@ -1,4 +1,5 @@
 using Application.Requests.Categories.CreateCategory;
+using Application.Requests.Categories.DeleteCategory;
 using Application.Requests.Categories.GetCategories;
 using Application.Requests.Categories.GetCategory;
 using MediatR;
@@ -54,5 +55,16 @@ public class CategoriesController : SenderControllerBase
         await Sender.Send(request);
 
         return CreatedAtAction(nameof(Create), new { createCategoryModel.Name });
+    }
+
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> Delete(string name)
+    {
+        _logger.LogInformation("Deleting a category with name {Name}", name);
+
+        var request = new DeleteCategoryCommand(name);
+        await Sender.Send(request);
+
+        return NoContent();
     }
 }

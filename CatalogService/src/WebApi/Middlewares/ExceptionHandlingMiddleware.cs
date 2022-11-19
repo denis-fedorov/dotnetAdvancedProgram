@@ -43,6 +43,7 @@ public class ExceptionHandlingMiddleware
             ItemCategoryNotFoundException => StatusCodes.Status400BadRequest,
             ItemWithTheSameNameAlreadyExists => StatusCodes.Status400BadRequest,
             ParentCategoryNotFoundException => StatusCodes.Status400BadRequest,
+            CategoryNotFoundException => StatusCodes.Status404NotFound,
             
             _ => StatusCodes.Status500InternalServerError
         };
