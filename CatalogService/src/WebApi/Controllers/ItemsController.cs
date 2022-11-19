@@ -52,7 +52,7 @@ public class ItemsController : SenderControllerBase
 
         var command = new CreateItemCommand(createItemModel);
         await Sender.Send(command);
-
-        return Created(createItemModel.Name, createItemModel.Name);
+        
+        return CreatedAtAction(nameof(Create), new { createItemModel.Name });
     }
 }

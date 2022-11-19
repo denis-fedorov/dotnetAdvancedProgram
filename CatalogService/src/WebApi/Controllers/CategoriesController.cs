@@ -53,6 +53,6 @@ public class CategoriesController : SenderControllerBase
         var request = new CreateCategoryCommand(createCategoryModel);
         await Sender.Send(request);
 
-        return Created(createCategoryModel.Name, createCategoryModel.Name);
+        return CreatedAtAction(nameof(Create), new { createCategoryModel.Name });
     }
 }
