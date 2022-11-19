@@ -61,7 +61,7 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
     {
         return await _applicationDbContext
             .Categories
-            .FirstOrDefaultAsync(i => i.Name == name, ct);
+            .SingleOrDefaultAsync(i => i.Name == name, ct);
     }
 
     private async Task<bool> NestedCategoriesExist(string name, CancellationToken ct)

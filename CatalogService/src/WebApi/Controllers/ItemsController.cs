@@ -1,4 +1,5 @@
 ﻿using Application.Requests.Items.CreateItem;
+using Application.Requests.Items.DeleteItem;
 using Application.Requests.Items.GetItem;
 using Application.Requests.Items.GetItems;
 using MediatR;
@@ -54,5 +55,16 @@ public class ItemsController : SenderControllerBase
         await Sender.Send(command);
         
         return CreatedAtAction(nameof(Create), new { createItemModel.Name });
+    }
+
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> Delete(string name)
+    {
+        _logger.LogInformation("Deleting an item with name {Name}", name);
+        
+        var request = new DeleteItemCommand(name);
+        await Sender.Send(request);
+
+        return NoContent();
     }
 }
