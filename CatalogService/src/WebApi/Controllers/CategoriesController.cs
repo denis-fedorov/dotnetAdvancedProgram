@@ -49,7 +49,7 @@ public class CategoriesController : SenderControllerBase
             return NotFound($"Category '{name}' was not found");
         }
         
-        return Ok(result);
+        return Ok(_categoryResourceFactory.CreateCategoryResource(result));
     }
     
     [HttpPost(Name = nameof(Create))]

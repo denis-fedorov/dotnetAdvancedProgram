@@ -1,4 +1,5 @@
-﻿using Application.Requests.Categories.GetCategories;
+﻿using Application.Requests.Categories;
+using Application.Requests.Categories.GetCategories;
 using SharedKernel;
 using WebApi.Controllers;
 
@@ -21,8 +22,17 @@ public sealed class CategoryResourceFactory
     public ResourceBase CreateCategoriesResourceList(IEnumerable<CategoriesTreeViewModel> categories)
     {
         return new CategoriesResourceList(_linkGenerator, _httpContextAccessor ,categories)
-            .AddGet("category", GetCategoryRouteName, new { name = "<categoryName>"})
+            .AddGet("category", GetCategoryRouteName, new { name = "categoryName"})
             .AddPost("create-category", CreateCategoryRouteName)
-            .AddDelete("delete-category", DeleteCategoryRouteName, new { name = "<categoryName>"});
+            .AddDelete("delete-category", DeleteCategoryRouteName, new { name = "categoryName"});
+    }
+
+    public ResourceBase CreateCategoryResource(CategoryViewModel categoryViewModel)
+    {
+        NullGuard.ThrowIfNull(categoryViewModel);
+        
+        return new CategoryResource(_linkGenerator, _httpContextAccessor, categoryViewModel)
+            .AddGet("category", GetCategoryRouteName, new { name = categoryViewModel.Name })
+            .AddDelete("delete-category", DeleteCategoryRouteName, new { name = categoryViewModel.Name });
     }
 }
