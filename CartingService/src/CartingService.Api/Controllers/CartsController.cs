@@ -28,7 +28,11 @@ public class CartsController : ControllerBase
     /// </summary>
     /// <param name="id">A cart unique id</param>
     /// <returns>A cart model with all the items</returns>
+    /// <response code='200'>The cart with all the items returns</response>
+    /// <response code='404'>The cart was not found</response>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult GetCart(string id)
     {
         _logger.LogInformation("Requesting a cart with id {Id}", id);
@@ -53,7 +57,11 @@ public class CartsController : ControllerBase
     /// <remarks>
     /// If a cart with a specified cartId doesn't exist this call will create it and put the item to it
     /// </remarks>
+    /// <response code='201'>The item has been put into the cart (the cart has been created if hadn't existed before)</response>
+    /// <response code='400'>The item has invalid params, or the cart has already had this item</response>
     [HttpPut("{cartId}/item/{itemId}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult PutItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
     {
         _logger.LogInformation("Puts an item with an {ItemId} into a cart with a {CartId} ", itemId, cartId);
@@ -69,7 +77,11 @@ public class CartsController : ControllerBase
     /// </summary>
     /// <param name="cartId">A cart unique id</param>
     /// <param name="itemId">An item unique id</param>
+    /// /// <response code='204'>The item was removed from the cart</response>
+    /// /// <response code='404'>The item or the cart was not found</response>
     [HttpDelete("{cartId}/item/{itemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult DeleteItem(string cartId, string itemId)
     {
         _logger.LogInformation("Delete an item '{ItemId}' with the cart '{CartId}'", itemId, cartId);
