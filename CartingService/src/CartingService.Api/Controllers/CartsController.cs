@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CartingService.Api.Controllers;
 
+/// <summary>
+/// API for carting service managing
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class CartsController : ControllerBase
@@ -19,6 +22,11 @@ public class CartsController : ControllerBase
         _cartingService = cartingService;
     }
 
+    /// <summary>
+    /// Gets a cart with all the items
+    /// </summary>
+    /// <param name="id">A cart unique id</param>
+    /// <returns>A cart model with all the items</returns>
     [HttpGet("{id}")]
     public IActionResult GetCart(string id)
     {
@@ -35,6 +43,15 @@ public class CartsController : ControllerBase
         return Ok(cart);
     }
 
+    /// <summary>
+    /// Puts an item with an itemId into a cart with a cartId 
+    /// </summary>
+    /// <param name="cartId">A cart unique id</param>
+    /// <param name="itemId">An item unique id</param>
+    /// <param name="createItemRequest">A request with item's params</param>
+    /// <remarks>
+    /// If a cart with a specified cartId doesn't exist this call will create it and put the item to it
+    /// </remarks>
     [HttpPut("{cartId}/item/{itemId}")]
     public IActionResult CreateItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
     {
@@ -46,6 +63,11 @@ public class CartsController : ControllerBase
         return NoContent();
     }
     
+    /// <summary>
+    /// Delete an item with an itemId from a cart with a cartId
+    /// </summary>
+    /// <param name="cartId">A cart unique id</param>
+    /// <param name="itemId">An item unique id</param>
     [HttpDelete("{cartId}/item/{itemId}")]
     public IActionResult DeleteItem(string cartId, string itemId)
     {
