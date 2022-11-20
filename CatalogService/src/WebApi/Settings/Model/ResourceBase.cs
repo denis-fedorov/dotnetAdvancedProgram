@@ -54,7 +54,7 @@ public abstract class ResourceBase
     private ResourceLink CreateLink(string method, string relation, string routeName, object values)
     {
         return new ResourceLink(
-            href: _linkGenerator.GetPathByRouteValues(_httpContextAccessor.HttpContext!, routeName, values)!,
+            href: _linkGenerator.GetUriByAction(_httpContextAccessor.HttpContext!, action: routeName, values: values)!,
             rel: relation,
             method: method);
     }

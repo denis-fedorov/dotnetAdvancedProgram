@@ -11,8 +11,7 @@ public sealed class CategoryResourceFactory
     private const string GetCategoryRouteName = nameof(CategoriesController.Get);
     private const string CreateCategoryRouteName = nameof(CategoriesController.Create);
     private const string DeleteCategoryRouteName = nameof(CategoriesController.Delete);
-
-
+    
     public CategoryResourceFactory(LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor)
     {
         _linkGenerator = NullGuard.ThrowIfNull(linkGenerator);
@@ -22,8 +21,8 @@ public sealed class CategoryResourceFactory
     public ResourceBase CreateCategoriesResourceList(IEnumerable<CategoriesTreeViewModel> categories)
     {
         return new CategoriesResourceList(_linkGenerator, _httpContextAccessor ,categories)
-            .AddGet("category", GetCategoryRouteName, new { categoryName = "{categoryName}"})
+            .AddGet("category", GetCategoryRouteName, new { name = "<categoryName>"})
             .AddPost("create-category", CreateCategoryRouteName)
-            .AddDelete("delete-category", DeleteCategoryRouteName, new { categoryName = "{categoryName}"});
+            .AddDelete("delete-category", DeleteCategoryRouteName, new { name = "<categoryName>"});
     }
 }
