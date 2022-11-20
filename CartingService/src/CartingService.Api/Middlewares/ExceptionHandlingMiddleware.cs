@@ -1,4 +1,6 @@
-﻿namespace CartingService.Api.Middlewares;
+﻿using CartingService.Core.Exceptions;
+
+namespace CartingService.Api.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {
@@ -31,13 +33,13 @@ public class ExceptionHandlingMiddleware
         var statusCode = exception switch
         {
             // TODO: place all the exceptions here
-            
+            CartNotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
         
         context.Response.StatusCode = statusCode;
-        context.Response.ContentType = "text/plain";
+        context.Response.ContentType = "application/json";
 
-        return context.Response.WriteAsync(message);
+        return context.Response.WriteAsJsonAsync(value: new { info = message });
     }
 }
