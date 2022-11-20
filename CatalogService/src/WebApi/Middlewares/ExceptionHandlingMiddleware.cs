@@ -51,8 +51,8 @@ public class ExceptionHandlingMiddleware
         };
         
         context.Response.StatusCode = statusCode;
-        context.Response.ContentType = "text/plain";
+        context.Response.ContentType = "application/json";
 
-        return context.Response.WriteAsync(message);
+        return context.Response.WriteAsJsonAsync(value: new { info = message });
     }
 }
