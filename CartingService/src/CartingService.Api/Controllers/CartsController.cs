@@ -9,6 +9,7 @@ namespace CartingService.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class CartsController : ControllerBase
 {
     private readonly ILogger<CartsController> _logger;
@@ -53,14 +54,14 @@ public class CartsController : ControllerBase
     /// If a cart with a specified cartId doesn't exist this call will create it and put the item to it
     /// </remarks>
     [HttpPut("{cartId}/item/{itemId}")]
-    public IActionResult CreateItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
+    public IActionResult PutItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
     {
-        _logger.LogInformation("Create an item '{ItemId}' from the cart '{CartId}'", itemId, cartId);
+        _logger.LogInformation("Puts an item with an {ItemId} into a cart with a {CartId} ", itemId, cartId);
 
         var item = createItemRequest.ToItem(itemId);
-        _cartingService.CreateItem(cartId, item);
+        _cartingService.PutItem(cartId, item);
 
-        return NoContent();
+        return CreatedAtAction(nameof(PutItem), new { cartId, itemId });
     }
     
     /// <summary>

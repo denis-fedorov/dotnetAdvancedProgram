@@ -1,4 +1,5 @@
 ﻿using CartingService.Core.Exceptions;
+using CartingService.Infrastructure.Exceptions;
 
 namespace CartingService.Api.Middlewares;
 
@@ -32,8 +33,16 @@ public class ExceptionHandlingMiddleware
 
         var statusCode = exception switch
         {
-            // TODO: place all the exceptions here
+            // Core exceptions
             CartNotFoundException => StatusCodes.Status404NotFound,
+            RemoveNonAddedItemException => StatusCodes.Status404NotFound,
+            ItemAlreadyAddedException => StatusCodes.Status400BadRequest,
+            NonValidItemPriceException => StatusCodes.Status400BadRequest,
+            NonValidItemQuantityException => StatusCodes.Status400BadRequest,
+            
+            // Infrastructure exception
+            DatabaseException => StatusCodes.Status500InternalServerError,
+            
             _ => StatusCodes.Status500InternalServerError
         };
         
