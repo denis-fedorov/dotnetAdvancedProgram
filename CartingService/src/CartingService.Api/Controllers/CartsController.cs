@@ -6,13 +6,13 @@ namespace CartingService.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CartingServiceController : ControllerBase
+public class CartsController : ControllerBase
 {
-    private readonly ILogger<CartingServiceController> _logger;
+    private readonly ILogger<CartsController> _logger;
     private readonly ICartingService _cartingService;
 
-    public CartingServiceController(
-        ILogger<CartingServiceController> logger,
+    public CartsController(
+        ILogger<CartsController> logger,
         ICartingService cartingService)
     {
         _logger = logger;
