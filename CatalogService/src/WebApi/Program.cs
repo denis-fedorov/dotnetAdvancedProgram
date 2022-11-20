@@ -1,6 +1,7 @@
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using WebApi.Extensions;
 using WebApi.Middlewares;
 using WebApi.Settings;
 
@@ -14,7 +15,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .ConfigureApplication()
-    .ConfigureInfrastructure();
+    .ConfigureInfrastructure()
+    .ConfigureWebApi();
 
 var app = builder.Build();
 

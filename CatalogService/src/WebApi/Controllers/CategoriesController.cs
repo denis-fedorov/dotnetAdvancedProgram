@@ -4,6 +4,7 @@ using Application.Requests.Categories.GetCategories;
 using Application.Requests.Categories.GetCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Settings.Model;
 
 namespace WebApi.Controllers;
 
@@ -12,14 +13,19 @@ namespace WebApi.Controllers;
 public class CategoriesController : SenderControllerBase
 {
     private readonly ILogger<CategoriesController> _logger;
+    private readonly CategoryResourceFactory _categoryResourceFactory;
 
-    public CategoriesController(ILogger<CategoriesController> logger, ISender sender)
-        : base(sender)
+    public CategoriesController(
+        ILogger<CategoriesController> logger,
+        ISender sender,
+        CategoryResourceFactory categoryResourceFactory)
+            : base(sender)
     {
         _logger = logger;
+        _categoryResourceFactory = categoryResourceFactory;
     }
 
-    [HttpGet]
+    [HttpGet(Name = nameof(GetAll))]
     public async Task<IActionResult> GetAll()
     {
         _logger.LogInformation("Getting all categories");
@@ -27,10 +33,10 @@ public class CategoriesController : SenderControllerBase
         var request = new GetCategoriesQuery();
         var result = await Sender.Send(request);
 
-        return Ok(result);
+        return Ok(_categoryResourceFactory.CreateCategoriesResourceList(result.Categories));
     }
 
-    [HttpGet("{name}")]
+    [HttpGet("{name}", Name = nameof(Get))]
     public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Getting a category with name {Name}", name);
@@ -46,7 +52,7 @@ public class CategoriesController : SenderControllerBase
         return Ok(result);
     }
     
-    [HttpPost]
+    [HttpPost(Name = nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
         _logger.LogInformation("Creating a category: {@CreateCategoryModel}", createCategoryModel);
@@ -57,7 +63,7 @@ public class CategoriesController : SenderControllerBase
         return CreatedAtAction(nameof(Create), new { createCategoryModel.Name });
     }
 
-    [HttpDelete("{name}")]
+    [HttpDelete("{name}", Name = nameof(Delete))]
     public async Task<IActionResult> Delete(string name)
     {
         _logger.LogInformation("Deleting a category with name {Name}", name);
