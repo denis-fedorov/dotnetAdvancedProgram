@@ -1,4 +1,5 @@
 using CartingService.Api.Extensions;
+using CartingService.Api.Middlewares;
 using CartingService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
