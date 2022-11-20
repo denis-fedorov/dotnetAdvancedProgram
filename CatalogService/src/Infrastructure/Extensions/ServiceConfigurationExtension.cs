@@ -7,7 +7,7 @@ namespace Infrastructure.Extensions;
 
 public static class ServiceConfigurationExtension
 {
-    public static void ConfigureInfrastructure(
+    public static IServiceCollection ConfigureInfrastructure(
         this IServiceCollection services)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -15,5 +15,7 @@ public static class ServiceConfigurationExtension
         
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
+
+        return services;
     }
 }

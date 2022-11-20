@@ -1,15 +1,22 @@
 using Application.Extensions;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using WebApi.Extensions;
+using WebApi.Middlewares;
+using WebApi.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+    options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseRouteParameterTransformer())));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
     .ConfigureApplication()
-    .ConfigureInfrastructure();
+    .ConfigureInfrastructure()
+    .ConfigureWebApi();
 
 var app = builder.Build();
 
@@ -19,7 +26,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseAuthorization();
 

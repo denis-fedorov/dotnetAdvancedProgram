@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel;
 
 namespace Application.Requests.Categories.GetCategories;
 
@@ -15,7 +16,7 @@ public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, Get
 
     public GetCategoriesQueryHandler(IApplicationDbContext applicationDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _applicationDbContext = NullGuard.ThrowIfNull(applicationDbContext);
     }
 
     public async Task<GetCategoriesViewModel> Handle(GetCategoriesQuery request, CancellationToken ct)

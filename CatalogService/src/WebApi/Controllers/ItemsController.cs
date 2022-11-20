@@ -1,4 +1,5 @@
 ﻿using Application.Requests.Items.CreateItem;
+using Application.Requests.Items.DeleteItem;
 using Application.Requests.Items.GetItem;
 using Application.Requests.Items.GetItems;
 using MediatR;
@@ -7,29 +8,33 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]/item")]
-public class ItemController : SenderControllerBase
+[Route("[controller]")]
+public class ItemsController : SenderControllerBase
 {
-    private readonly ILogger<ItemController> _logger;
+    private readonly ILogger<ItemsController> _logger;
 
-    public ItemController(ISender sender, ILogger<ItemController> logger)
+    public ItemsController(ISender sender, ILogger<ItemsController> logger)
         : base(sender)
     {
         _logger = logger;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] GetItemsModel getItemsModel)
     {
-        _logger.LogInformation("Get all the items");
+        _logger.LogInformation("Get all the items with {@GetItemsModel} param", getItemsModel);
+        if (!getItemsModel.IsValid())
+        {
+            return BadRequest();
+        }
         
-        var request = new GetItemsQuery();
+        var request = new GetItemsQuery(getItemsModel);
         var result = await Sender.Send(request);
 
         return Ok(result);
     }
 
-    [HttpGet("name/{name}")]
+    [HttpGet("{name}")]
     public async Task<IActionResult> Get(string name)
     {
         _logger.LogInformation("Get an item '{Name}'", name);
@@ -52,7 +57,18 @@ public class ItemController : SenderControllerBase
 
         var command = new CreateItemCommand(createItemModel);
         await Sender.Send(command);
+        
+        return CreatedAtAction(nameof(Create), new { createItemModel.Name });
+    }
 
-        return Created(createItemModel.Name, createItemModel.Name);
+    [HttpDelete("{name}")]
+    public async Task<IActionResult> Delete(string name)
+    {
+        _logger.LogInformation("Deleting an item with name {Name}", name);
+        
+        var request = new DeleteItemCommand(name);
+        await Sender.Send(request);
+
+        return NoContent();
     }
 }
