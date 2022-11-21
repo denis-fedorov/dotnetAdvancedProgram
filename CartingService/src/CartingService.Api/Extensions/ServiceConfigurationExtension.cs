@@ -46,6 +46,11 @@ public static class ServiceConfigurationExtension
                 new HeaderApiVersionReader("X-Version"),
                 new MediaTypeApiVersionReader("ver"));
         });
+        
+        services.AddVersionedApiExplorer(setup =>
+        {
+            setup.GroupNameFormat = "'v'VVV";
+        });
 
         services.AddScoped<ICartingService, Core.Services.CartingService>();
 
