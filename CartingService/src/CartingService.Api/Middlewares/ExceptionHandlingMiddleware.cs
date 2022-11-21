@@ -1,7 +1,7 @@
-﻿using Application.Exceptions;
-using Core.Exceptions;
+﻿using CartingService.Core.Exceptions;
+using CartingService.Infrastructure.Exceptions;
 
-namespace WebApi.Middlewares;
+namespace CartingService.Api.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {
@@ -34,18 +34,14 @@ public class ExceptionHandlingMiddleware
         var statusCode = exception switch
         {
             // Core exceptions
-            NameTooLongException => StatusCodes.Status400BadRequest,
-            NonValidItemAmountException => StatusCodes.Status400BadRequest,
+            CartNotFoundException => StatusCodes.Status404NotFound,
+            RemoveNonAddedItemException => StatusCodes.Status404NotFound,
+            ItemAlreadyAddedException => StatusCodes.Status400BadRequest,
             NonValidItemPriceException => StatusCodes.Status400BadRequest,
+            NonValidItemQuantityException => StatusCodes.Status400BadRequest,
             
-            // Application exceptions
-            CategoryWithTheSameNameAlreadyExists => StatusCodes.Status400BadRequest,
-            ItemCategoryNotFoundException => StatusCodes.Status400BadRequest,
-            ItemWithTheSameNameAlreadyExists => StatusCodes.Status400BadRequest,
-            ParentCategoryNotFoundException => StatusCodes.Status400BadRequest,
-            CategoryNotFoundException => StatusCodes.Status404NotFound,
-            ItemNotFoundException => StatusCodes.Status404NotFound,
-            RootCategoryDeleteException => StatusCodes.Status400BadRequest,
+            // Infrastructure exception
+            DatabaseException => StatusCodes.Status500InternalServerError,
             
             _ => StatusCodes.Status500InternalServerError
         };

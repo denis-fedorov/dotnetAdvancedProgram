@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "1350fa51-8023-4ccc-87fa-7ebcb4955986",
+		"name": "Carting Service API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5176285"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "/carts/id1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_api}}/carts/id1",
+							"host": [
+								"{{base_api}}"
+							],
+							"path": [
+								"carts",
+								"id1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/carts/id1/item/itemId1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"itemId1\",\r\n  \"image\": \"img1\",\r\n  \"price\": 100,\r\n  \"quantity\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_api}}/carts/id1/item/itemId1",
+							"host": [
+								"{{base_api}}"
+							],
+							"path": [
+								"carts",
+								"id1",
+								"item",
+								"itemId1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/carts/id1/item/itemId1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_api}}/carts/id1/item/itemId1",
+							"host": [
+								"{{base_api}}"
+							],
+							"path": [
+								"carts",
+								"id1",
+								"item",
+								"itemId1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v2",
+			"item": [
+				{
+					"name": "header",
+					"item": [
+						{
+							"name": "/carts/id1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Version",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_api}}/carts/id1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/carts/id1/item/itemId1",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Version",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"itemId1\",\r\n  \"image\": \"img1\",\r\n  \"price\": 100,\r\n  \"quantity\": 200\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_api}}/carts/id1/item/itemId1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1",
+										"item",
+										"itemId1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/carts/id1/item/itemId1",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Version",
+										"value": "2.0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_api}}/carts/id1/item/itemId1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1",
+										"item",
+										"itemId1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "content-type",
+					"item": [
+						{
+							"name": "/carts/id1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json; ver=2.0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_api}}/carts/id1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/carts/id1/item/itemId1",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json; ver=2.0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"itemId1\",\r\n  \"image\": \"img1\",\r\n  \"price\": 100,\r\n  \"quantity\": 200\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_api}}/carts/id1/item/itemId1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1",
+										"item",
+										"itemId1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/carts/id1/item/itemId1",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json; ver=2.0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_api}}/carts/id1/item/itemId1",
+									"host": [
+										"{{base_api}}"
+									],
+									"path": [
+										"carts",
+										"id1",
+										"item",
+										"itemId1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_api",
+			"value": "https://localhost:7225",
+			"type": "string"
+		}
+	]
+}
