@@ -2,13 +2,14 @@ using CartingService.Api.Models;
 using CartingService.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CartingService.Api.Controllers;
+namespace CartingService.Api.Controllers.v1;
 
 /// <summary>
 /// API for carting service managing
 /// </summary>
 [ApiController]
 [Route("[controller]")]
+[ApiVersion("1.0")]
 [Produces("application/json")]
 public class CartsController : ControllerBase
 {
@@ -62,6 +63,8 @@ public class CartsController : ControllerBase
     [HttpPut("{cartId}/item/{itemId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [MapToApiVersion("1.0")]
+    [MapToApiVersion("2.0")]
     public IActionResult PutItem(string cartId, string itemId, [FromBody] CreateItemRequest createItemRequest)
     {
         _logger.LogInformation("Puts an item with an {ItemId} into a cart with a {CartId} ", itemId, cartId);
@@ -82,6 +85,8 @@ public class CartsController : ControllerBase
     [HttpDelete("{cartId}/item/{itemId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion("1.0")]
+    [MapToApiVersion("2.0")]
     public IActionResult DeleteItem(string cartId, string itemId)
     {
         _logger.LogInformation("Delete an item '{ItemId}' with the cart '{CartId}'", itemId, cartId);
