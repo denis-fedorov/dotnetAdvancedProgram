@@ -24,10 +24,14 @@ public sealed class UpdateItemCommand : IRequest
 public sealed class UpdateItemCommandHandler : IRequestHandler<UpdateItemCommand>
 {
     private readonly IApplicationDbContext _applicationDbContext;
+    private readonly INotificationService _notificationService;
 
-    public UpdateItemCommandHandler(IApplicationDbContext applicationDbContext)
+    public UpdateItemCommandHandler(
+        IApplicationDbContext applicationDbContext,
+        INotificationService notificationService)
     {
         _applicationDbContext = applicationDbContext;
+        _notificationService = notificationService;
     }
 
     public async Task<Unit> Handle(UpdateItemCommand request, CancellationToken cancellationToken)
@@ -46,6 +50,8 @@ public sealed class UpdateItemCommandHandler : IRequestHandler<UpdateItemCommand
         {
             _applicationDbContext.Items.Update(item);
             await _applicationDbContext.SaveChangesAsync(cancellationToken);
+            
+            _notificationService.SendNewPriceMessage(item);
         }
         
         return new Unit();
