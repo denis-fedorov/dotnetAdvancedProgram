@@ -51,4 +51,11 @@ public class CartingService : ICartingService
         cart.RemoveItem(itemId);
         _cartingRepository.Update(cart);    
     }
+
+    public void UpdateItemPrice(string itemId, decimal price)
+    {
+        NullGuard.ThrowIfNull(itemId);
+
+        _cartingRepository.UpdateItemPrice(itemId, price);
+    }
 }

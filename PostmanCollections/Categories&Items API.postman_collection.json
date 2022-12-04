@@ -172,6 +172,33 @@
 					"response": []
 				},
 				{
+					"name": "/items/{name}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_api}}/items/it1",
+							"host": [
+								"{{base_api}}"
+							],
+							"path": [
+								"items",
+								"it1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/items it1",
 					"request": {
 						"method": "POST",

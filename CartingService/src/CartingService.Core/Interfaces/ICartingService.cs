@@ -9,4 +9,6 @@ public interface ICartingService
     public void PutItem(string cartId, Item item);
 
     public void DeleteItem(string cartId, string itemId);
+
+    public void UpdateItemPrice(string itemId, decimal price);
 }

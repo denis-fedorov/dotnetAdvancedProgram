@@ -47,5 +47,22 @@ public sealed class Item : EntityBase
             throw new NonValidItemAmountException(amount);
         }
         Amount = amount;
-    }   
+    }
+
+    public bool TryUpdatePrice(decimal newPrice)
+    {
+        if (Price == newPrice)
+        {
+            return false;
+        }
+        
+        if (newPrice <= 0)
+        {
+            throw new NonValidItemPriceException(newPrice);
+        }
+
+        Price = newPrice;
+
+        return true;
+    }
 }

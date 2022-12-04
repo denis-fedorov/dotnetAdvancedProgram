@@ -7,7 +7,7 @@ public class Item : EntityBase
 {
     public string Name { get; }
     public string? Image { get; }
-    public decimal Price { get; }
+    public decimal Price { get; private set; }
     public uint Quantity { get; }
 
     public Item(string id, string name, string? image, decimal price, uint quantity)
@@ -27,6 +27,15 @@ public class Item : EntityBase
             throw new NonValidItemQuantityException(quantity);
         }
         Quantity = quantity;
+    }
+
+    public void UpdatePrice(decimal price)
+    {
+        if (price <= 0)
+        {
+            throw new NonValidItemPriceException(price);
+        }
+        Price = price;
     }
 
     public override string ToString()

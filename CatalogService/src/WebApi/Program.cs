@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .ConfigureApplication()
-    .ConfigureInfrastructure()
+    .ConfigureInfrastructure(builder.Configuration)
     .ConfigureWebApi();
 
 var app = builder.Build();

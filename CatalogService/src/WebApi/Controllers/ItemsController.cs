@@ -2,6 +2,7 @@
 using Application.Requests.Items.DeleteItem;
 using Application.Requests.Items.GetItem;
 using Application.Requests.Items.GetItems;
+using Application.Requests.Items.UpdateItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +60,17 @@ public class ItemsController : SenderControllerBase
         await Sender.Send(command);
         
         return CreatedAtAction(nameof(Create), new { createItemModel.Name });
+    }
+
+    [HttpPut("{name}")]
+    public async Task<IActionResult> Update(string name, [FromBody] UpdateItemModel updateItemModel)
+    {
+        _logger.LogInformation("Update an item '{Name}'", name);
+
+        var command = new UpdateItemCommand(name, updateItemModel);
+        await Sender.Send(command);
+
+        return NoContent();
     }
 
     [HttpDelete("{name}")]
