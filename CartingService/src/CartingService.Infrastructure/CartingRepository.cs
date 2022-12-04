@@ -84,23 +84,6 @@ public class CartingRepository : ICartingRepository
         }
     }
 
-    public void Delete(string id)
-    {
-        NullGuard.ThrowIfNull(id);
-        
-        try
-        {
-            using var db = new LiteDatabase(_connectionString);
-            var cartsCollection = db.GetCollection<Cart>(CartsTableName);
-            cartsCollection.Delete(id);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "There is an error while deleting a cart from DB ('{ConnectionString}')", _connectionString);
-            throw new DatabaseException(_connectionString!, e);
-        }
-    }
-
     public void Update(Cart cart)
     {
         NullGuard.ThrowIfNull(cart);
@@ -114,6 +97,35 @@ public class CartingRepository : ICartingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "There is an error while updating a cart from DB ('{ConnectionString}')", _connectionString);
+            throw new DatabaseException(_connectionString!, e);
+        }
+    }
+
+    public void UpdateItemPrice(string itemId, decimal price)
+    {
+        NullGuard.ThrowIfNull(itemId);
+        
+        try
+        {
+            // a small hack due to DB persistent feature 
+            using var db = new LiteDatabase(_connectionString);
+            var cartsCollection = db
+                .GetCollection<Cart>(CartsTableName)
+                .Include(c => c.Items)
+                .Find(c => c.Items.Select(i => i.Name).Any(name => name == itemId))
+                .ToList();
+                
+            foreach (var cart in cartsCollection)
+            {
+                cart.UpdateItemPrice(itemId, price);
+            }
+
+            db.GetCollection<Cart>(CartsTableName)
+                .Update(cartsCollection);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "There is an error while updating an item from DB ('{ConnectionString}')", _connectionString);
             throw new DatabaseException(_connectionString!, e);
         }
     }

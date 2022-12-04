@@ -39,6 +39,19 @@ public class Cart : EntityBase
         Items.Remove(itemToRemove);
     }
 
+    public void UpdateItemPrice(string itemId, decimal price)
+    {
+        NullGuard.ThrowIfNull(itemId);
+        
+        var itemToUpdate = Items.SingleOrDefault(i => i.Id == itemId);
+        if (itemToUpdate is null)
+        {
+            throw new RemoveNonAddedItemException(itemId);
+        }
+        
+        itemToUpdate.UpdatePrice(price);
+    }
+
     public override string ToString()
     {
         var allItems = new StringBuilder($"Cart with id '{Id}' has:{Environment.NewLine}");

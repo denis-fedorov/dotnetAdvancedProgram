@@ -9,8 +9,8 @@ public interface ICartingRepository
     public void Create(Cart cart);
 
     public bool Exists(string id);
-    
-    public void Delete(string id);
 
     public void Update(Cart cart);
+
+    public void UpdateItemPrice(string itemId, decimal price);
 }
