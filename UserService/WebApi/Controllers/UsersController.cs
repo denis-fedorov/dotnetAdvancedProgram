@@ -10,10 +10,12 @@ namespace WebApi.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUsersService _usersService;
+    private readonly ITokenService _tokenService;
 
-    public UsersController(IUsersService usersService)
+    public UsersController(IUsersService usersService, ITokenService tokenService)
     {
         _usersService = usersService;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
@@ -32,5 +34,33 @@ public class UsersController : ControllerBase
         await _usersService.Create(user, cancellationToken);
 
         return Ok(new { message = "Registration was successful" } );
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginModel loginModel, CancellationToken cancellationToken)
+    {
+        NullGuard.ThrowIfNull(loginModel);
+        var username = NullGuard.ThrowIfNull(loginModel.Username);
+        var password = NullGuard.ThrowIfNull(loginModel.Password);
+        
+        var token = await _usersService.Login(username, password, cancellationToken);
+        if (token is null)
+        {
+            return Unauthorized();
+        }
+        
+        Response.Headers["Authorization"] = token;
+        
+        return Ok(new { Token = token } );
+    }
+
+    [HttpPost("validate")]
+    public IActionResult ValidateToken(string? token)
+    {
+        var role = _tokenService.ValidateToken(token);
+        
+        return role is not null
+            ? Ok(new { Role = role })
+            : Unauthorized();
     }
 }

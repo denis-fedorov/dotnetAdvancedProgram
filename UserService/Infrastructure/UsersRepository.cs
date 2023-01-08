@@ -23,6 +23,14 @@ public class UsersRepository : IUsersRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<User?> Get(string username, string password, CancellationToken cancellationToken)
+    {
+        var user = await _repositoryDbContext.Users
+            .FirstOrDefaultAsync(u => u.Username == username && u.Password == password, cancellationToken);
+
+        return user?.ToEntity();
+    }
+
     public async Task Create(User user, CancellationToken cancellationToken)
     {
         NullGuard.ThrowIfNull(user);

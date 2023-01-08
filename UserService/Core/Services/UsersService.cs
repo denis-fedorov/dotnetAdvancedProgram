@@ -1,15 +1,18 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using SharedKernel;
 
 namespace Core.Services;
 
 public class UsersService : IUsersService
 {
     private readonly IUsersRepository _usersRepository;
+    private readonly ITokenService _tokenService;
 
-    public UsersService(IUsersRepository usersRepository)
+    public UsersService(IUsersRepository usersRepository, ITokenService tokenService)
     {
         _usersRepository = usersRepository;
+        _tokenService = tokenService;
     }
 
     public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken)
@@ -19,6 +22,20 @@ public class UsersService : IUsersService
 
     public async Task Create(User user, CancellationToken cancellationToken)
     {
+        NullGuard.ThrowIfNull(user);
+        
         await _usersRepository.Create(user, cancellationToken);
+    }
+
+    public async Task<string?> Login(string username, string password, CancellationToken cancellationToken)
+    {
+        NullGuard.ThrowIfNull(username);
+        NullGuard.ThrowIfNull(password);
+        
+        var user = await _usersRepository.Get(username, password, cancellationToken);
+        
+        return user is not null
+            ? _tokenService.GenerateToken(user)
+            : null;
     }
 }
