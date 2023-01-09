@@ -55,8 +55,11 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("validate")]
-    public IActionResult ValidateToken(string? token)
+    public IActionResult ValidateToken(ValidateTokenModel validateTokenModel)
     {
+        NullGuard.ThrowIfNull(validateTokenModel);
+
+        var token = validateTokenModel.Token;
         var role = _tokenService.ValidateToken(token);
         
         return role is not null
