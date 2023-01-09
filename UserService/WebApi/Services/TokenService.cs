@@ -28,7 +28,7 @@ public class TokenService : ITokenService
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, ((byte)user.Role).ToString()) }),
+            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, user.Role.ToString()) }),
             Expires = DateTime.UtcNow.AddHours(_tokenSettings.ExpirationInHours),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -36,7 +36,7 @@ public class TokenService : ITokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public byte? ValidateToken(string? token)
+    public string? ValidateToken(string? token)
     {
         if (string.IsNullOrWhiteSpace(token))
         {
@@ -49,7 +49,7 @@ public class TokenService : ITokenService
             tokenHandler.ValidateToken(token, GetTokenValidationParameters(), out var validatedToken);
             var jwtToken = (JwtSecurityToken)validatedToken;
 
-            var role = byte.Parse(jwtToken.Claims.First(x => ClaimTypes.Role.Contains(x.Type)).Value);
+            var role = jwtToken.Claims.First(x => ClaimTypes.Role.Contains(x.Type)).Value;
 
             return role;
         }
