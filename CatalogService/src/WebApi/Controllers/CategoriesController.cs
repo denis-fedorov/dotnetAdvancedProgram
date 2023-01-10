@@ -3,6 +3,7 @@ using Application.Requests.Categories.DeleteCategory;
 using Application.Requests.Categories.GetCategories;
 using Application.Requests.Categories.GetCategory;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Settings.Model;
 
@@ -10,6 +11,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Roles = "Manager, Buyer")]
 public class CategoriesController : SenderControllerBase
 {
     private readonly ILogger<CategoriesController> _logger;
