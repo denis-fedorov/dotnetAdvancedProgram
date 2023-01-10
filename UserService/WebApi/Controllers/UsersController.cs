@@ -60,10 +60,10 @@ public class UsersController : ControllerBase
         NullGuard.ThrowIfNull(validateTokenModel);
 
         var token = validateTokenModel.Token;
-        var role = _tokenService.ValidateToken(token);
+        var isTokenValid = _tokenService.IsTokenValid(token);
         
-        return role is not null
-            ? Ok(new { Role = role })
+        return isTokenValid
+            ? Ok()
             : Unauthorized();
     }
 }

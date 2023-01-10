@@ -12,6 +12,7 @@ namespace WebApi.Services;
 
 public class TokenService : ITokenService
 {
+    private const string PrincipalIdClaim = "sub";
     private readonly TokenSettings _tokenSettings;
 
     public TokenService(IOptions<TokenSettings> tokenSettings)
@@ -28,7 +29,11 @@ public class TokenService : ITokenService
         var key = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, user.Role.ToString()) }),
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(PrincipalIdClaim, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            }),
             Expires = DateTime.UtcNow.AddHours(_tokenSettings.ExpirationInHours),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -36,26 +41,23 @@ public class TokenService : ITokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public string? ValidateToken(string? token)
+    public bool IsTokenValid(string? token)
     {
         if (string.IsNullOrWhiteSpace(token))
         {
-            return null;
+            return false;
         }
         
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
             tokenHandler.ValidateToken(token, GetTokenValidationParameters(), out var validatedToken);
-            var jwtToken = (JwtSecurityToken)validatedToken;
-
-            var role = jwtToken.Claims.First(x => ClaimTypes.Role.Contains(x.Type)).Value;
-
-            return role;
+            
+            return true;
         }
         catch
         {
-            return null;
+            return false;
         }
     }
 

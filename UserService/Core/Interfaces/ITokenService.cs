@@ -6,5 +6,5 @@ public interface ITokenService
 {
     public string? GenerateToken(User user);
 
-    public string? ValidateToken(string? token);
+    public bool IsTokenValid(string? token);
 }
