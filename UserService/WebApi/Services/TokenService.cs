@@ -13,6 +13,8 @@ namespace WebApi.Services;
 public class TokenService : ITokenService
 {
     private const string PrincipalIdClaim = "sub";
+    private const string IssuerClaim = "iss";
+    
     private readonly TokenSettings _tokenSettings;
 
     public TokenService(IOptions<TokenSettings> tokenSettings)
@@ -21,7 +23,7 @@ public class TokenService : ITokenService
         _tokenSettings = tokenSettings.Value;
     }
 
-    public string? GenerateToken(User user)
+    public string? GenerateToken(User user, string host)
     {
         NullGuard.ThrowIfNull(user);
         
@@ -32,7 +34,8 @@ public class TokenService : ITokenService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(PrincipalIdClaim, user.Username),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(IssuerClaim, host)
             }),
             Expires = DateTime.UtcNow.AddHours(_tokenSettings.ExpirationInHours),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

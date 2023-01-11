@@ -27,15 +27,17 @@ public class UsersService : IUsersService
         await _usersRepository.Create(user, cancellationToken);
     }
 
-    public async Task<string?> Login(string username, string password, CancellationToken cancellationToken)
+    public async Task<string?> Login(
+        string username, string password, string host, CancellationToken cancellationToken)
     {
         NullGuard.ThrowIfNull(username);
         NullGuard.ThrowIfNull(password);
+        NullGuard.ThrowIfNull(host);
         
         var user = await _usersRepository.Get(username, password, cancellationToken);
         
         return user is not null
-            ? _tokenService.GenerateToken(user)
+            ? _tokenService.GenerateToken(user, host)
             : null;
     }
 }

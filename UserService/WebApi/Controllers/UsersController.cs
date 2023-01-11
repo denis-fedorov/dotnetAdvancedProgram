@@ -42,8 +42,9 @@ public class UsersController : ControllerBase
         NullGuard.ThrowIfNull(loginModel);
         var username = NullGuard.ThrowIfNull(loginModel.Username);
         var password = NullGuard.ThrowIfNull(loginModel.Password);
-        
-        var token = await _usersService.Login(username, password, cancellationToken);
+        var host = GetHostUrl(Request);
+
+        var token = await _usersService.Login(username, password, host, cancellationToken);
         if (token is null)
         {
             return Unauthorized();
@@ -65,5 +66,12 @@ public class UsersController : ControllerBase
         return isTokenValid
             ? Ok()
             : Unauthorized();
+    }
+
+    private static string GetHostUrl(HttpRequest request)
+    {
+        var result = $"{request.Scheme}://{request.Host.Value}";
+
+        return result;
     }
 }

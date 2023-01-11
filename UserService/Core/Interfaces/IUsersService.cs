@@ -8,5 +8,5 @@ public interface IUsersService
 
     public Task Create(User user, CancellationToken cancellationToken);
 
-    public Task<string?> Login(string username, string password, CancellationToken cancellationToken);
+    public Task<string?> Login(string username, string password, string host, CancellationToken cancellationToken);
 }
