@@ -15,12 +15,14 @@ public class JwtValidationMiddleware
     public async Task Invoke(HttpContext context)
     {
         var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
+        var claims = ExtractClaims(token);
+        var issuer = claims.FirstOrDefault(c => c.Type == ClaimTypes.Authentication);
         
-        // TODO: call UserServiceAPI for token validation
-        //var isValid = UserServiceApi.ValidateToken(token);
-        if (token != null)
+        if (issuer != null)
         {
-            var claims = ExtractClaims(token);
+            // TODO: call UserServiceAPI bu issuer URL for token validation
+            //var isValid = UserServiceApi.ValidateToken(token);
+            
             var identity = new ClaimsIdentity(claims, "basic");
             context.User = new ClaimsPrincipal(identity);
         }
@@ -28,19 +30,26 @@ public class JwtValidationMiddleware
         await _next(context);
     }
 
-    private static IEnumerable<Claim> ExtractClaims(string token)
+    private static List<Claim> ExtractClaims(string? token)
     {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return new List<Claim>();
+        }
+        
         var handler = new JwtSecurityTokenHandler();
         var jsonToken = handler.ReadToken(token);
         var claimsToken = jsonToken as JwtSecurityToken;
 
         var principalId = claimsToken?.Payload["sub"].ToString();
         var role = claimsToken?.Payload["role"].ToString();
+        var issuer = claimsToken?.Payload["iss"].ToString();
         
-        return new[]
+        return new List<Claim>
         {
-            new Claim(ClaimTypes.Name, principalId),
-            new Claim(ClaimTypes.Role, role)
+            new(ClaimTypes.Name, principalId),
+            new(ClaimTypes.Role, role),
+            new(ClaimTypes.Authentication, issuer)
         };
     }
 }
