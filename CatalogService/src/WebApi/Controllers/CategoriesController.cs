@@ -3,6 +3,7 @@ using Application.Requests.Categories.DeleteCategory;
 using Application.Requests.Categories.GetCategories;
 using Application.Requests.Categories.GetCategory;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Settings.Model;
 
@@ -10,6 +11,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Roles = "Manager, Buyer")]
 public class CategoriesController : SenderControllerBase
 {
     private readonly ILogger<CategoriesController> _logger;
@@ -53,6 +55,7 @@ public class CategoriesController : SenderControllerBase
     }
     
     [HttpPost(Name = nameof(Create))]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
         _logger.LogInformation("Creating a category: {@CreateCategoryModel}", createCategoryModel);
@@ -64,6 +67,7 @@ public class CategoriesController : SenderControllerBase
     }
 
     [HttpDelete("{name}", Name = nameof(Delete))]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> Delete(string name)
     {
         _logger.LogInformation("Deleting a category with name {Name}", name);
