@@ -55,6 +55,7 @@ public class CategoriesController : SenderControllerBase
     }
     
     [HttpPost(Name = nameof(Create))]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> Create([FromBody] CreateCategoryModel createCategoryModel)
     {
         _logger.LogInformation("Creating a category: {@CreateCategoryModel}", createCategoryModel);
@@ -66,6 +67,7 @@ public class CategoriesController : SenderControllerBase
     }
 
     [HttpDelete("{name}", Name = nameof(Delete))]
+    [Authorize(Roles = "Manager")]
     public async Task<IActionResult> Delete(string name)
     {
         _logger.LogInformation("Deleting a category with name {Name}", name);

@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
