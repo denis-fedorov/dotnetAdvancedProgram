@@ -55,6 +55,14 @@ public class UserTests
     {
         true.Should().BeTrue();
     }
+    
+    [Fact]
+    public void TestString()
+    {
+        const string str = "value";
+
+        str.Should().Be(str);
+    }
 
     private static User CreateUser(string username, string password, Role role)
     {
