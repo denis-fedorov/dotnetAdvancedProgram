@@ -53,7 +53,7 @@ public class UserTests
     [Fact]
     public void TestTrue()
     {
-        true.Should().BeTrue();
+        false.Should().BeTrue();
     }
     
     [Fact]
