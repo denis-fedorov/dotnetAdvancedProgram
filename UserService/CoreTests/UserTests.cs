@@ -50,12 +50,6 @@ public class UserTests
         }
     }
 
-    [Fact]
-    public void TestTrue()
-    {
-        true.Should().BeTrue();
-    }
-
     private static User CreateUser(string username, string password, Role role)
     {
         return new User(username, password, role);
