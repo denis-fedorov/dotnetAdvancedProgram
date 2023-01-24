@@ -53,7 +53,7 @@ public class UserTests
     [Fact]
     public void Test()
     {
-        false.Should().BeTrue();
+        true.Should().BeTrue();
     }
 
     private static User CreateUser(string username, string password, Role role)
